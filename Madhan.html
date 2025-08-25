@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Portal | Enhanced Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #14b8a6 0%, #0f766e 100%);
+            --secondary-gradient: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --primary-color: #14b8a6;
+            --secondary-color: #0f766e;
+            --accent-color: #1a1a1a;
+            --success-color: #10b981;
+            --light-bg: #f0fdfa;
+            --card-bg: #ffffff;
+            --dark-text: #1e293b;
+            --light-text: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --red-color: #ef4444;
+            --green-color: #10b981;
+            --yellow-color: #f59e0b;
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --teal-gradient: linear-gradient(135deg, #14b8a6 0%, #065f46 100%);
+            --dark-gradient: linear-gradient(135deg, #111827 0%, #374151 100%);
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #14b8a6 0%, #065f46 100%);
+            color: var(--dark-text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(-45deg, #14b8a6, #0d9488, #1a1a1a, #374151);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            z-index: -1;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating Elements */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 20s linear infinite;
+        }
+
+        .floating-element:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            left: 20%;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            left: 70%;
+            animation-delay: 4s;
+        }
+
+        .floating-element:nth-child(4) {
+            width: 100px;
+            height: 100px;
+            left: 80%;
+            animation-delay: 6s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Layout */
+        .app-container {
+            min-height: 100vh;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .main-content {
+            padding: 20px 0;
+        }
+
+        /* Header */
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .breadcrumb {
+            display: flex;
+            list-style: none;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .breadcrumb li:not(:last-child)::after {
+            content: "/";
+            margin: 0 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .breadcrumb a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 6px;
+        }
+
+        .breadcrumb a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .breadcrumb li:last-child {
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Profile Card */
+        .employee-profile {
+            background: var(--card-bg);
+            border-radius: 24px;
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .employee-profile:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Profile Header */
+        .profile-header {
+            position: relative;
+            color: white;
+            text-align: center;
+        }
+
+        .cover-photo {
+            height: 200px;
+            background: var(--teal-gradient);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cover-photo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="60" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="70" cy="80" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
+            animation: twinkle 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .employee-photo {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            border: 6px solid white;
+            margin: -80px auto 20px;
+            position: relative;
+            box-shadow: var(--shadow-xl);
+            background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .employee-photo:hover {
+            transform: scale(1.05);
+        }
+
+        .employee-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .employee-photo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .employee-photo:hover::before {
+            transform: translateX(100%);
+        }
+
+        .profile-info {
+            padding: 0 30px 30px;
+            background: var(--card-bg);
+        }
+
+        .profile-name {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--dark-text);
+            background: var(--teal-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .profile-position {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--light-text);
+            font-weight: 500;
+        }
+
+        .profile-badges {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            color: var(--dark-text);
+            font-weight: 500;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .badge:hover {
+            transform: translateY(-2px);
+            background: var(--teal-gradient);
+            color: white;
+        }
+
+        .badge i {
+            margin-right: 8px;
+            color: var(--primary-color);
+            transition: color 0.3s ease;
+        }
+
+        .badge:hover i {
+            color: white;
+        }
+
+        /* Profile Content */
+        .profile-content {
+            padding: 30px;
+            background: var(--card-bg);
+        }
+
+        /* Details Grid */
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 24px;
+        }
+
+        .details-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .details-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--teal-gradient);
+        }
+
+        .details-section:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: var(--teal-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            margin-right: 12px;
+            padding: 8px;
+            background: var(--teal-gradient);
+            color: white;
+            border-radius: 8px;
+            font-size: 16px;
+            -webkit-text-fill-color: white;
+        }
+
+        .detail-item {
+            display: flex;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .detail-item:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateX(5px);
+        }
+
+        .detail-label {
+            font-weight: 600;
+            min-width: 140px;
+            color: var(--dark-text);
+        }
+
+        .detail-value {
+            flex: 1;
+            color: var(--light-text);
+            font-weight: 500;
+        }
+
+        /* Skills */
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill-tag {
+            background: var(--teal-gradient);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .skill-tag:hover::before {
+            left: 100%;
+        }
+
+        .skill-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Footer */
+        .profile-footer {
+            padding: 20px 30px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--light-text);
+            font-size: 14px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .action-btn.primary {
+            background: var(--teal-gradient);
+        }
+
+        .action-btn.secondary {
+            background: var(--dark-gradient);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .app-container {
+                padding: 10px;
+            }
+
+            .content-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+                padding: 15px;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .employee-photo {
+                width: 130px;
+                height: 130px;
+                margin: -65px auto 15px;
+            }
+
+            .profile-name {
+                font-size: 22px;
+            }
+
+            .profile-position {
+                font-size: 16px;
+            }
+
+            .profile-content {
+                padding: 20px;
+            }
+
+            .details-section {
+                padding: 18px;
+            }
+
+            .cover-photo {
+                height: 150px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .detail-item {
+                flex-direction: column;
+                margin-bottom: 15px;
+            }
+
+            .detail-label {
+                margin-bottom: 5px;
+            }
+
+            .profile-badges {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+
+        /* Dark Mode Support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --card-bg: rgba(30, 41, 59, 0.9);
+                --light-bg: #0f172a;
+                --dark-text: #f1f5f9;
+                --light-text: #94a3b8;
+                --border-color: #334155;
+            }
+
+            .details-section {
+                background: rgba(30, 41, 59, 0.7);
+            }
+
+            .detail-item {
+                background: rgba(51, 65, 85, 0.5);
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Focus States */
+        .action-btn:focus,
+        .breadcrumb a:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+
+    <div class="app-container">
+        <div class="main-content">
+            <div class="content-header">
+                <ul class="breadcrumb">
+                    <li><a href="#" onclick="navigateBack()">Home</a></li>
+                    <li><a href="#" onclick="navigateBack()">Employees</a></li>
+                    <li>Madhan Kumar</li>
+                </ul>
+               
+            </div>
+            
+            <div class="employee-profile">
+                <div class="profile-header">
+                    <div class="cover-photo"></div>
+                    <div class="employee-photo">
+                        <img src="madhan.png" alt="Sureshkumar">
+                    </div>
+                    <div class="profile-info">
+                        <h1 class="profile-name">Venkata Madhan Kumar P</h1>
+                        <div class="profile-position">Sales Coordinator @ Sreemeditec</div>
+                        <div class="profile-badges">
+                            <div class="badge"><i class="fas fa-map-marker-alt"></i> Chennai, TN</div>
+                            <div class="badge"><i class="fas fa-briefcase"></i> fresher </div>
+                            <div class="badge"><i class="fas fa-id-badge"></i> ID: 2102187817</div>
+                            <div class="badge"><i class="fas fa-calendar"></i> Age: 50 </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="profile-content">
+                    <div class="details-grid">
+                        <!-- Personal Information -->
+                        <div class="details-section">
+                            <h3 class="section-title"><i class="fas fa-user"></i> Basic Information</h3>
+                            <div class="detail-item">
+                                <div class="detail-label">Full Name</div>
+                                <div class="detail-value">P.Venkata Madhan Kumar</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Date of Birth</div>
+                                <div class="detail-value">July 11, 1975</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Gender</div>
+                                <div class="detail-value">Male</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Nationality</div>
+                                <div class="detail-value">Indian</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Blood Group</div>
+                                <div class="detail-value">O+</div>
+                            </div>
+                        </div>
+                        
+                        <div class="details-section">
+                            <h3 class="section-title"><i class="fas fa-address-card"></i> Contact Information</h3>
+                            <div class="detail-item">
+                                <div class="detail-label">Email</div>
+                                <div class="detail-value">petetimadhan@gmail.com</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Phone</div>
+                                <div class="detail-value">‪+91 9384816598‬</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Address</div>
+                                <div class="detail-value">No.17.  Gokula Krishna Nagar, Sirukadal Village, Sevvapet, Tiruvallur Taluk and Dist. 
+Pin. 602025.</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Emergency Contact</div>
+                                <div class="detail-value">9445480860</div>
+                            </div>
+                        </div>
+
+                        <!-- Employment Details -->
+                        <div class="details-section">
+                            <h3 class="section-title"><i class="fas fa-briefcase"></i> Employment Details</h3>
+                            <div class="detail-item">
+                                <div class="detail-label">Employee ID</div>
+                                <div class="detail-value">2102187817</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Company</div>
+                                <div class="detail-value">Sreemeditec</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Position</div>
+                                <div class="detail-value">Sales Coordinator</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Join Date</div>
+                                <div class="detail-value">Augest 4 2025 </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Reports To</div>
+                                <div class="detail-value">Suresh Kumar</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Experience</div>
+                                <div class="detail-value">Fresher</div>
+                            </div>
+                        </div>
+
+                        <div class="details-section">
+                            <h3 class="section-title"><i class="fas fa-chart-line"></i> Performance Metrics</h3>
+                            <div class="detail-item">
+                                <div class="detail-label">Sales Rating</div>
+                                <div class="detail-value">⭐⭐⭐⭐ (4.0/5.0)</div>
+                            </div>
+                           
+                            <div class="detail-item">
+                                <div class="detail-label">Last Promotion</div>
+                                <div class="detail-value">-</div>
+                            </div>
+                        </div>
+
+                        <div class="details-section">
+                            <h3 class="section-title"><i class="fas fa-graduation-cap"></i> Education</h3>
+                            <div class="detail-item">
+                                <div class="detail-label">Degree</div>
+                                <div class="detail-value">Bachelor's </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Specialization</div>
+                                <div class="detail-value">B.com</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Institution</div>
+                                <div class="detail-value">Govt College, puttur</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Year of Graduation</div>
+                                <div class="detail-value">1998</div>
+                            </div>
+                        </div>
+                        
+                       
+
+                        <div class="details-section">
+                            <h3 class="section-title"><i class="fas fa-star"></i> Skills & Expertise</h3>
+                            <div class="detail-item">
+                                <div class="detail-label">Technical Skills</div>
+                                <div class="detail-value">
+                                    <div class="skill-tags">
+                                        <span class="skill-tag">Medical Equipment Service</span>
+                                        <span class="skill-tag">Team Management</span>
+                                        <span class="skill-tag">Quality Control</span>
+                                        <span class="skill-tag">Customer Relations</span>
+                                        <span class="skill-tag">Preventive Maintenance</span>
+                                        <span class="skill-tag">Technical Documentation</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Languages</div>
+                                <div class="detail-value">
+                                    <div class="skill-tags">
+                                        <span class="skill-tag">Tamil (Native)</span>
+                                        <span class="skill-tag">English (Fluent)</span>
+                                      
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-footer">
+                    <p>Last updated: August 2024 | Employee record maintained by HR Department</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function navigateBack() {
+            // Simulate navigation
+            console.log('Navigating back...');
+        }
+
+        function editProfile() {
+            // Simulate profile editing
+            console.log('Opening profile editor...');
+            alert('Profile editing functionality would open here.');
+        }
+    </script>
+</body>
+</html>
