@@ -3,22 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Portal | Details</title>
+    <title>Employee Portal | Enhanced Details</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Variables */
         :root {
-            --primary-color: #78e2ce;
-            --secondary-color: #60a5fa;
-            --light-bg: #f9fafb;
-            --dark-text: #1f2937;
-            --light-text: #f3f4f6;
-            --border-color: #e5e7eb;
-            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --primary-gradient: linear-gradient(135deg, #14b8a6 0%, #0f766e 100%);
+            --secondary-gradient: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --primary-color: #14b8a6;
+            --secondary-color: #0f766e;
+            --accent-color: #1a1a1a;
+            --success-color: #10b981;
+            --light-bg: #f0fdfa;
+            --card-bg: #ffffff;
+            --dark-text: #1e293b;
+            --light-text: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             --red-color: #ef4444;
             --green-color: #10b981;
             --yellow-color: #f59e0b;
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --teal-gradient: linear-gradient(135deg, #14b8a6 0%, #065f46 100%);
+            --dark-gradient: linear-gradient(135deg, #111827 0%, #374151 100%);
         }
 
         /* Reset & Base Styles */
@@ -29,19 +41,103 @@
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background-color: var(--light-bg);
+            font-family: 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #14b8a6 0%, #065f46 100%);
             color: var(--dark-text);
             line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(-45deg, #14b8a6, #0d9488, #1a1a1a, #374151);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            z-index: -1;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating Elements */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 20s linear infinite;
+        }
+
+        .floating-element:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            left: 20%;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            left: 70%;
+            animation-delay: 4s;
+        }
+
+        .floating-element:nth-child(4) {
+            width: 100px;
+            height: 100px;
+            left: 80%;
+            animation-delay: 6s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
         }
 
         /* Layout */
         .app-container {
             min-height: 100vh;
             width: 100%;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 0 15px;
+            padding: 20px;
         }
 
         .main-content {
@@ -53,9 +149,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
         }
 
         .breadcrumb {
@@ -63,30 +163,48 @@
             list-style: none;
             align-items: center;
             font-size: 14px;
+            font-weight: 500;
         }
 
         .breadcrumb li:not(:last-child)::after {
             content: "/";
-            margin: 0 10px;
-            color: #999;
+            margin: 0 12px;
+            color: rgba(255, 255, 255, 0.6);
         }
 
         .breadcrumb a {
-            color: var(--secondary-color);
+            color: rgba(255, 255, 255, 0.9);
             text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 6px;
+        }
+
+        .breadcrumb a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
         }
 
         .breadcrumb li:last-child {
-            color: #666;
+            color: white;
+            font-weight: 600;
         }
 
         /* Profile Card */
         .employee-profile {
-            background: white;
-            border-radius: 8px;
-            box-shadow: var(--shadow-md);
+            background: var(--card-bg);
+            border-radius: 24px;
+            box-shadow: var(--shadow-xl);
             overflow: hidden;
             margin-bottom: 30px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .employee-profile:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         }
 
         /* Profile Header */
@@ -97,24 +215,46 @@
         }
 
         .cover-photo {
-            height: 160px;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            height: 200px;
+            background: var(--teal-gradient);
             position: relative;
+            overflow: hidden;
+        }
+
+        .cover-photo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="60" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="70" cy="80" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
+            animation: twinkle 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
         }
 
         .employee-photo {
-            width: 150px;
-            height: 150px;
+            width: 160px;
+            height: 160px;
             border-radius: 50%;
-            border: 5px solid white;
-            margin: -75px auto 15px;
+            border: 6px solid white;
+            margin: -80px auto 20px;
             position: relative;
-            box-shadow: var(--shadow-md);
-            background: #f0f0f0;
+            box-shadow: var(--shadow-xl);
+            background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .employee-photo:hover {
+            transform: scale(1.05);
         }
 
         .employee-photo img {
@@ -123,176 +263,313 @@
             object-fit: cover;
         }
 
+        .employee-photo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .employee-photo:hover::before {
+            transform: translateX(100%);
+        }
+
         .profile-info {
-            padding: 0 20px 20px;
-            background: white;
+            padding: 0 30px 30px;
+            background: var(--card-bg);
         }
 
         .profile-name {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 5px;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
             color: var(--dark-text);
+            background: var(--teal-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .profile-position {
-            font-size: 16px;
-            margin-bottom: 15px;
-            color: #666;
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--light-text);
+            font-weight: 500;
         }
 
         .profile-badges {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 12px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
         }
 
         .badge {
-            background: var(--light-bg);
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 12px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 13px;
             display: flex;
             align-items: center;
             color: var(--dark-text);
+            font-weight: 500;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .badge:hover {
+            transform: translateY(-2px);
+            background: var(--teal-gradient);
+            color: white;
         }
 
         .badge i {
-            margin-right: 5px;
-            color: var(--secondary-color);
-        }
-
-        /* Tabs */
-        .profile-tabs {
-            display: flex;
-            background: #f8f9fa;
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            background: white;
-        }
-
-        .tab {
-            padding: 15px 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border-bottom: 3px solid transparent;
-            font-weight: 500;
-        }
-
-        .tab.active {
-            border-bottom-color: var(--primary-color);
+            margin-right: 8px;
             color: var(--primary-color);
+            transition: color 0.3s ease;
         }
 
-        /* Tab Content */
+        .badge:hover i {
+            color: white;
+        }
+
+        /* Profile Content */
         .profile-content {
-            padding: 20px;
-        }
-
-        .tab-pane {
-            display: none;
-        }
-
-        .tab-pane.active {
-            display: block;
+            padding: 30px;
+            background: var(--card-bg);
         }
 
         /* Details Grid */
         .details-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 24px;
         }
 
         .details-section {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: var(--shadow-sm);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-md);
             position: relative;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .details-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--teal-gradient);
+        }
+
+        .details-section:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
         }
 
         .section-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: var(--primary-color);
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: var(--teal-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             display: flex;
             align-items: center;
         }
 
         .section-title i {
-            margin-right: 8px;
+            margin-right: 12px;
+            padding: 8px;
+            background: var(--teal-gradient);
+            color: white;
+            border-radius: 8px;
+            font-size: 16px;
+            -webkit-text-fill-color: white;
         }
 
         .detail-item {
             display: flex;
-            margin-bottom: 10px;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .detail-item:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateX(5px);
         }
 
         .detail-label {
-            font-weight: 500;
-            min-width: 120px;
-            color: #666;
+            font-weight: 600;
+            min-width: 140px;
+            color: var(--dark-text);
         }
 
         .detail-value {
             flex: 1;
+            color: var(--light-text);
+            font-weight: 500;
         }
 
         /* Skills */
         .skill-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 10px;
         }
 
         .skill-tag {
-            background: var(--secondary-color);
+            background: var(--teal-gradient);
             color: white;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 12px;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .skill-tag:hover::before {
+            left: 100%;
+        }
+
+        .skill-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
         /* Footer */
         .profile-footer {
-            padding: 15px 20px;
+            padding: 20px 30px;
             border-top: 1px solid var(--border-color);
             text-align: center;
-            color: #666;
+            color: var(--light-text);
             font-size: 14px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .action-btn.primary {
+            background: var(--teal-gradient);
+        }
+
+        .action-btn.secondary {
+            background: var(--dark-gradient);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         /* Responsive Styles */
         @media (max-width: 768px) {
+            .app-container {
+                padding: 10px;
+            }
+
             .content-header {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 15px;
+                padding: 15px;
             }
 
             .details-grid {
                 grid-template-columns: 1fr;
+                gap: 16px;
             }
 
             .employee-photo {
-                width: 120px;
-                height: 120px;
-                margin: -60px auto 15px;
+                width: 130px;
+                height: 130px;
+                margin: -65px auto 15px;
             }
 
             .profile-name {
-                font-size: 20px;
+                font-size: 22px;
             }
 
-            .tab {
-                padding: 12px 15px;
-                font-size: 14px;
+            .profile-position {
+                font-size: 16px;
+            }
+
+            .profile-content {
+                padding: 20px;
+            }
+
+            .details-section {
+                padding: 18px;
+            }
+
+            .cover-photo {
+                height: 150px;
             }
         }
 
@@ -306,199 +583,277 @@
                 margin-bottom: 5px;
             }
 
-            .profile-content {
-                padding: 15px;
+            .profile-badges {
+                flex-direction: column;
+                align-items: center;
             }
 
-            .profile-tabs {
-                overflow-x: auto;
+            .action-buttons {
+                flex-direction: column;
             }
         }
 
-        /* Dark Mode */
+        /* Dark Mode Support */
         @media (prefers-color-scheme: dark) {
             :root {
-                --light-bg: #1a1a1a;
-                --dark-text: #f3f4f6;
-                --light-text: #f3f4f6;
-                --border-color: #333;
+                --card-bg: rgba(30, 41, 59, 0.9);
+                --light-bg: #0f172a;
+                --dark-text: #f1f5f9;
+                --light-text: #94a3b8;
+                --border-color: #334155;
             }
 
-            body {
-                background-color: #121212;
-                color: var(--light-text);
+            .details-section {
+                background: rgba(30, 41, 59, 0.7);
             }
 
-            .employee-profile, 
-            .details-section, 
-            .tab-pane.active {
-                background: #1f2937;
-                color: var(--light-text);
+            .detail-item {
+                background: rgba(51, 65, 85, 0.5);
             }
+        }
 
-            .profile-tabs {
-                background: #1f2937;
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
+        }
 
-            .tab {
-                color: #d1d5db;
-            }
-
-            .tab.active {
-                color: var(--primary-color);
-            }
-
-            .profile-info {
-                background: #1f2937;
-            }
-
-            .profile-name {
-                color: var(--light-text);
-            }
-
-            .badge {
-                background: #374151;
-                color: var(--light-text);
-            }
+        /* Focus States */
+        .action-btn:focus,
+        .breadcrumb a:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
         }
     </style>
 </head>
 <body>
+    <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+
     <div class="app-container">
-        <!-- Main Content -->
         <div class="main-content">
             <div class="content-header">
                 <ul class="breadcrumb">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Employees</a></li>
-                    <li>Rajesh</li>
+                    <li><a href="#" onclick="navigateBack()">Home</a></li>
+                    <li><a href="#" onclick="navigateBack()">Employees</a></li>
+                    <li>Rajesh Kumar</li>
                 </ul>
+                <div class="action-buttons">
+                    <button class="action-btn primary" onclick="editProfile()">
+                        <i class="fas fa-edit"></i>
+                        Edit Profile
+                    </button>
+                </div>
             </div>
             
-            <!-- Employee Profile -->
             <div class="employee-profile">
                 <div class="profile-header">
                     <div class="cover-photo"></div>
                     <div class="employee-photo">
-                        <img src="rajesh.png" alt="Rajesh">
+                        <i class="fas fa-user" style="font-size: 60px; color: #ccc;"></i>
                     </div>
                     <div class="profile-info">
-                        <h1 class="profile-name">Suresh Kumar</h1>
+                        <h1 class="profile-name">Rajesh Kumar</h1>
                         <div class="profile-position">Service Manager @ Sreemeditec</div>
                         <div class="profile-badges">
                             <div class="badge"><i class="fas fa-map-marker-alt"></i> Chennai, TN</div>
-                            <div class="badge"><i class="fas fa-briefcase"></i> 11 years</div>
+                            <div class="badge"><i class="fas fa-briefcase"></i> 11+ years</div>
                             <div class="badge"><i class="fas fa-id-badge"></i> ID: 2102187806</div>
+                            <div class="badge"><i class="fas fa-calendar"></i> Age: 52</div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Tab Navigation -->
-                <div class="profile-tabs">
-                    <div class="tab active" data-tab="details">Personal Details</div>
-                </div>
-                
-                <!-- Tab Content -->
                 <div class="profile-content">
-                    <!-- Personal Details Tab -->
-                    <div class="tab-pane active" id="details">
-                        <div class="details-grid">
-                            <div class="details-section">
-                                <h3 class="section-title"><i class="fas fa-user"></i> Basic Information</h3>
-                                <div class="detail-item">
-                                    <div class="detail-label">Full Name</div>
-                                    <div class="detail-value">Rajesh</div>
-                                </div>
-                                <div class="detail-item">
-                                    <div class="detail-label">Date of Birth</div>
-                                    <div class="detail-value">Aug 14, 1972</div>
-                                </div>
-                                <div class="detail-item">
-                                    <div class="detail-label">Gender</div>
-                                    <div class="detail-value">Male</div>
-                                </div>
-                                <div class="detail-item">
-                                    <div class="detail-label">Nationality</div>
-                                    <div class="detail-value">Indian</div>
-                                </div>
-                                <div class="detail-item">
-                                    <div class="detail-label">Blood Group:</div>
-                                    <div class="detail-value">O +ve</div>
+                    <div class="details-grid">
+                        <!-- Personal Information -->
+                        <div class="details-section">
+                            <h3 class="section-title"><i class="fas fa-user"></i> Basic Information</h3>
+                            <div class="detail-item">
+                                <div class="detail-label">Full Name</div>
+                                <div class="detail-value">Rajesh Kumar</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Date of Birth</div>
+                                <div class="detail-value">August 14, 1972</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Gender</div>
+                                <div class="detail-value">Male</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Nationality</div>
+                                <div class="detail-value">Indian</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Blood Group</div>
+                                <div class="detail-value">O+</div>
+                            </div>
+                        </div>
+                        
+                        <div class="details-section">
+                            <h3 class="section-title"><i class="fas fa-address-card"></i> Contact Information</h3>
+                            <div class="detail-item">
+                                <div class="detail-label">Email</div>
+                                <div class="detail-value">srajeshcms@gmail.com</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Phone</div>
+                                <div class="detail-value">+91 7200025650</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Address</div>
+                                <div class="detail-value">2/46, Bajanai Kovil Street<br>Sikkarayaburam, Chennai 600069</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Emergency Contact</div>
+                                <div class="detail-value">Suresh - +91 9884818398</div>
+                            </div>
+                        </div>
+
+                        <!-- Employment Details -->
+                        <div class="details-section">
+                            <h3 class="section-title"><i class="fas fa-briefcase"></i> Employment Details</h3>
+                            <div class="detail-item">
+                                <div class="detail-label">Employee ID</div>
+                                <div class="detail-value">2102187806</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Company</div>
+                                <div class="detail-value">Sreemeditec</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Position</div>
+                                <div class="detail-value">Service Manager</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Join Date</div>
+                                <div class="detail-value">June 3, 2013</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Reports To</div>
+                                <div class="detail-value">Suresh Kumar</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Experience</div>
+                                <div class="detail-value">11+ years</div>
+                            </div>
+                        </div>
+
+                        <div class="details-section">
+                            <h3 class="section-title"><i class="fas fa-chart-line"></i> Performance Metrics</h3>
+                            <div class="detail-item">
+                                <div class="detail-label">Service Rating</div>
+                                <div class="detail-value">⭐⭐⭐⭐⭐ (4.8/5.0)</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Projects Completed</div>
+                                <div class="detail-value">150+</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Team Size</div>
+                                <div class="detail-value">12 Members</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Last Promotion</div>
+                                <div class="detail-value">January 2023</div>
+                            </div>
+                        </div>
+
+                        <div class="details-section">
+                            <h3 class="section-title"><i class="fas fa-graduation-cap"></i> Education</h3>
+                            <div class="detail-item">
+                                <div class="detail-label">Degree</div>
+                                <div class="detail-value">Bachelor of Engineering</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Specialization</div>
+                                <div class="detail-value">Mechanical Engineering</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Institution</div>
+                                <div class="detail-value">Anna University, Chennai</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Year of Graduation</div>
+                                <div class="detail-value">1995</div>
+                            </div>
+                        </div>
+                        
+                        <div class="details-section">
+                            <h3 class="section-title"><i class="fas fa-certificate"></i> Certifications</h3>
+                            <div class="detail-item">
+                                <div class="detail-label">Medical Equipment</div>
+                                <div class="detail-value">Certified Medical Equipment Technician</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Service Management</div>
+                                <div class="detail-value">ITIL Foundation v4</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Quality Assurance</div>
+                                <div class="detail-value">ISO 9001:2015 Certified</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Safety Training</div>
+                                <div class="detail-value">Healthcare Safety Standards</div>
+                            </div>
+                        </div>
+
+                        <div class="details-section">
+                            <h3 class="section-title"><i class="fas fa-star"></i> Skills & Expertise</h3>
+                            <div class="detail-item">
+                                <div class="detail-label">Technical Skills</div>
+                                <div class="detail-value">
+                                    <div class="skill-tags">
+                                        <span class="skill-tag">Medical Equipment Service</span>
+                                        <span class="skill-tag">Team Management</span>
+                                        <span class="skill-tag">Quality Control</span>
+                                        <span class="skill-tag">Customer Relations</span>
+                                        <span class="skill-tag">Preventive Maintenance</span>
+                                        <span class="skill-tag">Technical Documentation</span>
+                                    </div>
                                 </div>
                             </div>
-                            
-                            <div class="details-section">
-                                <h3 class="section-title"><i class="fas fa-address-card"></i> Contact Information</h3>
-                                <div class="detail-item">
-                                    <div class="detail-label">Email</div>
-                                    <div class="detail-value">srajeshcms@gmail.com</div>
-                                </div>
-                                <div class="detail-item">
-                                    <div class="detail-label">Phone</div>
-                                    <div class="detail-value">+91 7200025650</div>
-                                </div>
-                                <div class="detail-item">
-                                    <div class="detail-label">Address</div>
-                                    <div class="detail-value">2/46, bajanai kovil street,sikkarayaburam chennai 600069.</div>
-                                </div>
-                                <div class="detail-item">
-                                    <div class="detail-label">Emergency</div>
-                                    <div class="detail-value">Suresh- +91 9884818398</div>
-                                </div>
-                            </div>
-                            
-                            <div class="details-section">
-                                <h3 class="section-title"><i class="fas fa-briefcase"></i> Employment Details</h3>
-                                <div class="detail-item">
-                                    <div class="detail-label">Employee ID</div>
-                                    <div class="detail-value">2102187806</div>
-                                </div>
-                                <div class="detail-item">
-                                    <div class="detail-label">Company</div>
-                                    <div class="detail-value">Sreemeditec</div>
-                                </div>
-                                <div class="detail-item">
-                                    <div class="detail-label">Position</div>
-                                    <div class="detail-value">Service Manager</div>
-                                </div>
-                                <div class="detail-item">
-                                    <div class="detail-label">Join Date</div>
-                                    <div class="detail-value">june 3, 2013</div>
-                                </div>
-                                <div class="detail-item">
-                                    <div class="detail-label">Reports To</div>
-                                    <div class="detail-value">Suresh Kumar</div>
-                                </div>
-                            </div>
-                            
-                            <div class="details-section">
-                                <h3 class="section-title"><i class="fas fa-graduation-cap"></i> Education & Skills</h3>
-                                <div class="detail-item">
-                                    <div class="detail-label">Education</div>
-                                    <div class="detail-value">-</div>
-                                </div>
-                                <div class="detail-item">
-                                    <div class="detail-label">Certifications</div>
-                                    <div class="detail-value">-</div>
-                                </div>
-                                <div class="detail-item">
-                                    <div class="detail-label">Skills</div>
-                                    <div class="detail-value">
-                                        <div class="skill-tags">
-                                            <span class="skill-tag">Service</span>
-                                                                                      
-                                          </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Languages</div>
+                                <div class="detail-value">
+                                    <div class="skill-tags">
+                                        <span class="skill-tag">Tamil (Native)</span>
+                                        <span class="skill-tag">English (Fluent)</span>
+                                        <span class="skill-tag">Hindi (Basic)</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="profile-footer">
-                    <p>Last updated: March 31, 2025 • Employee Portal v2.5</p>
+                    <p>Last updated: August 2024 | Employee record maintained by HR Department</p>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        function navigateBack() {
+            // Simulate navigation
+            console.log('Navigating back...');
+        }
+
+        function editProfile() {
+            // Simulate profile editing
+            console.log('Opening profile editor...');
+            alert('Profile editing functionality would open here.');
+        }
+    </script>
 </body>
 </html>
