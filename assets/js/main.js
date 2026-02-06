@@ -3,36 +3,17 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getDatabase, ref, set, push, onValue, get, child } from "firebase/database";
 
+// Import the generated config
+import { firebaseConfig } from './firebase-config.js';
+
 // Global variables for Firebase services
 let db;
 
 /**
- * Loads environment variables from a .env file and initializes Firebase
+ * Initializes Firebase using the imported config
  */
-async function initApp() {
+function initApp() {
     try {
-        const response = await fetch('.env');
-        const envText = await response.text();
-        const env = {};
-
-        // Simple .env parser
-        envText.split('\n').forEach(line => {
-            const [key, ...valueParts] = line.split('=');
-            if (key && valueParts.length > 0) {
-                env[key.trim()] = valueParts.join('=').trim();
-            }
-        });
-
-        const firebaseConfig = {
-            apiKey: env.FIREBASE_API_KEY,
-            authDomain: env.FIREBASE_AUTH_DOMAIN,
-            projectId: env.FIREBASE_PROJECT_ID,
-            storageBucket: env.FIREBASE_STORAGE_BUCKET,
-            messagingSenderId: env.FIREBASE_MESSAGING_SENDER_ID,
-            appId: env.FIREBASE_APP_ID,
-            measurementId: env.FIREBASE_MEASUREMENT_ID
-        };
-
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);

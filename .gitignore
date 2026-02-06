@@ -2,3 +2,4 @@ node_modules/
 .DS_Store
 .env
 assets/js/env.js
+assets/js/firebase-config.js
