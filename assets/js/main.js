@@ -1,20 +1,54 @@
-/**
- * Main JS for Sreemeditec Employee Portal
- * Features: GSAP Animations, ID Search, QR Generation, New Employee Registry, View Toggle
- */
-
-// Import the functions you need from the SDKs you need
+// Firebase Imports
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 import { getDatabase, ref, set, push, onValue, get, child } from "firebase/database";
 
-import { firebaseConfig } from "./env.js";
+// Global variables for Firebase services
+let db;
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const db = getDatabase(app);
+/**
+ * Loads environment variables from a .env file and initializes Firebase
+ */
+async function initApp() {
+    try {
+        const response = await fetch('.env');
+        const envText = await response.text();
+        const env = {};
 
+        // Simple .env parser
+        envText.split('\n').forEach(line => {
+            const [key, ...valueParts] = line.split('=');
+            if (key && valueParts.length > 0) {
+                env[key.trim()] = valueParts.join('=').trim();
+            }
+        });
 
-document.addEventListener('DOMContentLoaded', () => {
+        const firebaseConfig = {
+            apiKey: env.FIREBASE_API_KEY,
+            authDomain: env.FIREBASE_AUTH_DOMAIN,
+            projectId: env.FIREBASE_PROJECT_ID,
+            storageBucket: env.FIREBASE_STORAGE_BUCKET,
+            messagingSenderId: env.FIREBASE_MESSAGING_SENDER_ID,
+            appId: env.FIREBASE_APP_ID,
+            measurementId: env.FIREBASE_MEASUREMENT_ID
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        db = getDatabase(app);
+
+        // Start the Main Application Logic
+        startApp();
+    } catch (error) {
+        console.error("Infrastructure Initialization Error:", error);
+    }
+}
+
+// Start the process
+initApp();
+
+function startApp() {
     // 1. GSAP Entrance Animations
     if (typeof gsap !== 'undefined') {
         gsap.from('.employee-card', {
@@ -301,4 +335,4 @@ document.addEventListener('DOMContentLoaded', () => {
             correctLevel: QRCode.CorrectLevel.H
         });
     }
-});
+}
