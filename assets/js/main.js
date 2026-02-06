@@ -4,16 +4,14 @@
  */
 
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getDatabase, ref, set, push, onValue, get, child } from "firebase/database";
 
 import { firebaseConfig } from "./env.js";
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+const db = getDatabase(app);
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -158,51 +156,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 skills: document.querySelector('#newSkills').value
             };
 
-            // Save to LocalStorage
-            let employees = JSON.parse(localStorage.getItem('employees')) || [];
-            employees.push(employee);
-            localStorage.setItem('employees', JSON.stringify(employees));
-
-            // Add to grid (Visual feedback if we stayed on page, but we will redirect)
-            const grid = document.querySelector('#directoryGrid');
-            if (grid) {
-                const newCard = document.createElement('a');
-                newCard.href = `employee.html?id=${employee.id}`;
-                newCard.className = 'employee-card';
-                newCard.setAttribute('data-id', employee.id);
-                newCard.innerHTML = `
-                    <img src="${employee.avatar}" alt="${employee.name}">
-                    <span class="emp-id">ID: ${employee.id}</span>
-                    <h3>${employee.name}</h3>
-                    <p class="role">${employee.role}</p>
-                `;
-                grid.appendChild(newCard);
-            }
-
-            // Add to list
-            const list = document.querySelector('#directoryList');
-            if (list) {
-                const newListItem = document.createElement('a');
-                newListItem.href = `employee.html?id=${employee.id}`;
-                newListItem.className = 'list-item';
-                newListItem.setAttribute('data-id', employee.id);
-                newListItem.innerHTML = `
-                    <img src="${employee.avatar}" alt="${employee.name}">
-                    <div class="emp-info">
-                        <span class="emp-name">${employee.name}</span>
-                        <span class="emp-id-tag">ID: ${employee.id}</span>
-                        <span class="emp-role">${employee.role} | ${employee.dept}</span>
-                    </div>
-                `;
-                list.appendChild(newListItem);
-            }
-
-            newEmpForm.reset();
-            modal.classList.remove('active');
-
-            // Redirect to the new employee page
-            alert(`Comprehensive personnel record for ${employee.name} has been synchronized. Redirecting to profile...`);
-            window.location.href = `employee.html?id=${employee.id}`;
+            // Save to Firebase Database
+            set(ref(db, 'employees/' + employee.id), employee)
+                .then(() => {
+                    newEmpForm.reset();
+                    modal.classList.remove('active');
+                    alert(`Comprehensive personnel record for ${employee.name} has been synchronized. Redirecting to profile...`);
+                    window.location.href = `employee.html?id=${employee.id}`;
+                })
+                .catch((error) => {
+                    console.error("Firebase Error: ", error);
+                    alert("Sync Error: " + error.message);
+                });
         });
     }
 
@@ -212,56 +177,61 @@ document.addEventListener('DOMContentLoaded', () => {
     const profileName = document.getElementById('profileName');
 
     if (empId && profileName) {
-        const employees = JSON.parse(localStorage.getItem('employees')) || [];
-        const emp = employees.find(e => e.id === empId);
+        get(child(ref(db), 'employees/' + empId)).then((snapshot) => {
+            if (snapshot.exists()) {
+                const emp = snapshot.val();
 
-        if (emp) {
-            // Update Header
-            document.getElementById('profileName').textContent = emp.name;
-            document.getElementById('profileRole').textContent = `${emp.role} | ${emp.dept}`;
-            document.getElementById('profileId').textContent = `ID: ${emp.id}`;
-            const avatarImg = document.getElementById('profileAvatar');
-            if (avatarImg) avatarImg.src = emp.avatar;
-            document.title = `Sreemeditec | ${emp.name}`;
+                // Update Header
+                document.getElementById('profileName').textContent = emp.name;
+                document.getElementById('profileRole').textContent = `${emp.role} | ${emp.dept}`;
+                document.getElementById('profileId').textContent = `ID: ${emp.id}`;
+                const avatarImg = document.getElementById('profileAvatar');
+                if (avatarImg) avatarImg.src = emp.avatar;
+                document.title = `Sreemeditec | ${emp.name}`;
 
-            // Basic Info
-            const setVal = (id, val) => {
-                const el = document.getElementById(id);
-                if (el) el.textContent = val || '-';
-            };
+                // Basic Info
+                const setVal = (id, val) => {
+                    const el = document.getElementById(id);
+                    if (el) el.textContent = val || '-';
+                };
 
-            setVal('infoName', emp.name);
-            setVal('infoDob', emp.dob);
-            setVal('infoGender', emp.gender);
-            setVal('infoNationality', emp.nationality);
+                setVal('infoName', emp.name);
+                setVal('infoDob', emp.dob);
+                setVal('infoGender', emp.gender);
+                setVal('infoNationality', emp.nationality);
 
-            // Contact
-            setVal('infoEmail', emp.email);
-            setVal('infoPhone', emp.phone);
-            setVal('infoEmergency', emp.emergency);
+                // Contact
+                setVal('infoEmail', emp.email);
+                setVal('infoPhone', emp.phone);
+                setVal('infoEmergency', emp.emergency);
 
-            // Employment
-            setVal('infoCorpRole', emp.role);
-            setVal('infoDept', emp.dept);
-            setVal('infoJoinDate', emp.joinDate);
-            setVal('infoManager', emp.manager);
+                // Employment
+                setVal('infoCorpRole', emp.role);
+                setVal('infoDept', emp.dept);
+                setVal('infoJoinDate', emp.joinDate);
+                setVal('infoManager', emp.manager);
 
-            // Competency
-            setVal('infoEdu', emp.edu);
+                // Competency
+                setVal('infoEdu', emp.edu);
 
-            // Skills (Handle Split)
-            const skillsContainer = document.getElementById('infoSkills');
-            if (skillsContainer && emp.skills) {
-                skillsContainer.innerHTML = ''; // Clear defaults
-                const skillsList = emp.skills.split(',').map(s => s.trim());
-                skillsList.forEach(skill => {
-                    const span = document.createElement('span');
-                    span.className = 'skill-tag';
-                    span.textContent = skill;
-                    skillsContainer.appendChild(span);
-                });
+                // Skills (Handle Split)
+                const skillsContainer = document.getElementById('infoSkills');
+                if (skillsContainer && emp.skills) {
+                    skillsContainer.innerHTML = ''; // Clear defaults
+                    const skillsList = emp.skills.split(',').map(s => s.trim());
+                    skillsList.forEach(skill => {
+                        const span = document.createElement('span');
+                        span.className = 'skill-tag';
+                        span.textContent = skill;
+                        skillsContainer.appendChild(span);
+                    });
+                }
+            } else {
+                console.log("No data available");
             }
-        }
+        }).catch((error) => {
+            console.error(error);
+        });
     }
 
     // 7. Load Saved Employees into Dashboard (Persistence)
@@ -269,44 +239,51 @@ document.addEventListener('DOMContentLoaded', () => {
     const listViewContainer = document.getElementById('directoryList');
 
     if (gridViewContainer && listViewContainer) {
-        const storedEmployees = JSON.parse(localStorage.getItem('employees')) || [];
-        storedEmployees.forEach(emp => {
-            // Check for duplicates (prevent adding if already exists)
-            if (!gridViewContainer.querySelector(`[data-id="${emp.id}"]`)) {
-                // Create Grid Card
-                const card = document.createElement('a');
-                card.href = `employee.html?id=${emp.id}`;
-                card.className = 'employee-card';
-                card.setAttribute('data-id', emp.id);
-                card.style.display = gridViewContainer.style.display === 'none' ? 'none' : 'flex'; // maintain visibility state
-                // Note: display logic is better handled by view toggle, but we init to flex usually or let CSS handle.
-                // Actually, the toggle logic hides the CONTAINER, not the child items, usually.
-                // But looking at toggle logic: gridView.style.display = 'grid'.
-                // The children are usually display:flex via CSS.
-                // Let's rely on CSS.
+        onValue(ref(db, 'employees'), (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                Object.values(data).forEach(emp => {
+                    let existingGridCard = gridViewContainer.querySelector(`[data-id="${emp.id}"]`);
+                    let existingListItem = listViewContainer.querySelector(`[data-id="${emp.id}"]`);
 
-                card.innerHTML = `
-                    <img src="${emp.avatar}" alt="${emp.name}">
-                    <span class="emp-id">ID: ${emp.id}</span>
-                    <h3>${emp.name}</h3>
-                    <p class="role">${emp.role}</p>
-                `;
-                gridViewContainer.appendChild(card);
+                    const gridHtml = `
+                        <img src="${emp.avatar}" alt="${emp.name}">
+                        <span class="emp-id">ID: ${emp.id}</span>
+                        <h3>${emp.name}</h3>
+                        <p class="role">${emp.role}</p>
+                    `;
 
-                // Create List Item
-                const li = document.createElement('a');
-                li.href = `employee.html?id=${emp.id}`;
-                li.className = 'list-item';
-                li.setAttribute('data-id', emp.id);
-                li.innerHTML = `
-                    <img src="${emp.avatar}" alt="${emp.name}">
-                    <div class="emp-info">
-                        <span class="emp-name">${emp.name}</span>
-                        <span class="emp-id-tag">ID: ${emp.id}</span>
-                        <span class="emp-role">${emp.role} | ${emp.dept}</span>
-                    </div>
-                `;
-                listViewContainer.appendChild(li);
+                    const listHtml = `
+                        <img src="${emp.avatar}" alt="${emp.name}">
+                        <div class="emp-info">
+                            <span class="emp-name">${emp.name}</span>
+                            <span class="emp-id-tag">ID: ${emp.id}</span>
+                            <span class="emp-role">${emp.role} | ${emp.dept}</span>
+                        </div>
+                    `;
+
+                    if (existingGridCard) {
+                        existingGridCard.innerHTML = gridHtml;
+                    } else {
+                        const card = document.createElement('a');
+                        card.href = `employee.html?id=${emp.id}`;
+                        card.className = 'employee-card';
+                        card.setAttribute('data-id', emp.id);
+                        card.innerHTML = gridHtml;
+                        gridViewContainer.appendChild(card);
+                    }
+
+                    if (existingListItem) {
+                        existingListItem.innerHTML = listHtml;
+                    } else {
+                        const li = document.createElement('a');
+                        li.href = `employee.html?id=${emp.id}`;
+                        li.className = 'list-item';
+                        li.setAttribute('data-id', emp.id);
+                        li.innerHTML = listHtml;
+                        listViewContainer.appendChild(li);
+                    }
+                });
             }
         });
     }
