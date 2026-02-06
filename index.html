@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sreemeditec | Personnel Management</title>
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/main.css">
+
+    <!-- Firebase Import Map -->
+    <script type="importmap">
+    {
+      "imports": {
+        "firebase/app": "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js",
+        "firebase/analytics": "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js",
+        "firebase/firestore": "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js",
+        "firebase/database": "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js"
+      }
+    }
+    </script>
+
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header-section">
+            <div class="brand-info">
+                <h1>Sreemeditec</h1>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-primary" id="openModal">
+                    <i class="fas fa-plus"></i> NEW EMPLOYEE
+                </button>
+            </div>
+        </header>
+
+        <!-- View Controls -->
+        <div class="view-toggle">
+            <button class="toggle-btn active" id="gridViewBtn">
+                <i class="fas fa-th-large"></i> GRID VIEW
+            </button>
+            <button class="toggle-btn" id="listViewBtn">
+                <i class="fas fa-list"></i> LIST VIEW (ALL EMPLOYEES)
+            </button>
+        </div>
+
+        <!-- Search -->
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" id="empSearch"
+                placeholder="Search by Employee ID (e.g. 2102187801)...">
+        </div>
+
+        <!-- Grid View Layer -->
+        <div class="directory-grid" id="directoryGrid">
+            <!-- Suresh -->
+            <a href="suresh.html" class="employee-card" data-id="2102187801">
+                <img src="images/suresh.jpg" alt="Suresh Kumar">
+                <span class="emp-id">ID: 2102187801</span>
+                <h3>Suresh Kumar</h3>
+                <p class="role">Sales Head</p>
+            </a>
+
+            <!-- Sreekumar -->
+            <a href="employee.html" class="employee-card" data-id="2102187805">
+                <img src="images/sree.jpg" alt="Sreekumar">
+                <span class="emp-id">ID: 2102187805</span>
+                <h3>Sreekumar</h3>
+                <p class="role">IT Manager</p>
+            </a>
+
+            <!-- Chithra -->
+            <a href="chithra.html" class="employee-card" data-id="2102187804">
+                <img src="images/chithra.jpg" alt="Chithra R">
+                <span class="emp-id">ID: 2102187804</span>
+                <h3>Chithra R</h3>
+                <p class="role">Accountant</p>
+            </a>
+
+            <!-- Rajesh -->
+            <a href="rajesh.html" class="employee-card" data-id="2102187806">
+                <img src="rajesh.png" alt="Rajesh Kumar">
+                <span class="emp-id">ID: 2102187806</span>
+                <h3>Rajesh Kumar</h3>
+                <p class="role">Service Manager</p>
+            </a>
+
+            <!-- Madhan -->
+            <a href="Madhan.html" class="employee-card" data-id="2102187817">
+                <img src="madhan.png" alt="Madhan Kumar">
+                <span class="emp-id">ID: 2102187817</span>
+                <h3>V. Madhan Kumar</h3>
+                <p class="role">Sales Coordinator</p>
+            </a>
+
+            <!-- Sakthivel -->
+            <a href="sakthivel.html" class="employee-card" data-id="2102187816">
+                <img src="images/sakthivel.jpeg" alt="Sakthivel S">
+                <span class="emp-id">ID: 2102187816</span>
+                <h3>Sakthivel S</h3>
+                <p class="role">Service Engineer</p>
+            </a>
+        </div>
+
+        <!-- List View Layer -->
+        <div class="directory-list" id="directoryList">
+            <!-- Suresh -->
+            <a href="suresh.html" class="list-item" data-id="2102187801">
+                <img src="images/suresh.jpg" alt="Suresh">
+                <div class="emp-info">
+                    <span class="emp-name">Suresh Kumar</span>
+                    <span class="emp-id-tag">ID: 2102187801</span>
+                    <span class="emp-role">Sales Head | Commercial</span>
+                </div>
+            </a>
+            <!-- Sreekumar -->
+            <a href="employee.html" class="list-item" data-id="2102187805">
+                <img src="images/sree.jpg" alt="Sreekumar">
+                <div class="emp-info">
+                    <span class="emp-name">Sreekumar</span>
+                    <span class="emp-id-tag">ID: 2102187805</span>
+                    <span class="emp-role">IT Manager | Technology</span>
+                </div>
+            </a>
+            <!-- Chithra -->
+            <a href="chithra.html" class="list-item" data-id="2102187804">
+                <img src="images/chithra.jpg" alt="Chithra">
+                <div class="emp-info">
+                    <span class="emp-name">Chithra R</span>
+                    <span class="emp-id-tag">ID: 2102187804</span>
+                    <span class="emp-role">Accountant | Finance</span>
+                </div>
+            </a>
+            <!-- Rajesh -->
+            <a href="rajesh.html" class="list-item" data-id="2102187806">
+                <img src="rajesh.png" alt="Rajesh">
+                <div class="emp-info">
+                    <span class="emp-name">Rajesh Kumar</span>
+                    <span class="emp-id-tag">ID: 2102187806</span>
+                    <span class="emp-role">Service Manager | Engineering</span>
+                </div>
+            </a>
+            <!-- Madhan -->
+            <a href="Madhan.html" class="list-item" data-id="2102187817">
+                <img src="madhan.png" alt="Madhan">
+                <div class="emp-info">
+                    <span class="emp-name">V. Madhan Kumar</span>
+                    <span class="emp-id-tag">ID: 2102187817</span>
+                    <span class="emp-role">Sales Coordinator | Commercial</span>
+                </div>
+            </a>
+            <!-- Sakthivel -->
+            <a href="sakthivel.html" class="list-item" data-id="2102187816">
+                <img src="images/sakthivel.jpeg" alt="Sakthivel">
+                <div class="emp-info">
+                    <span class="emp-name">Sakthivel S</span>
+                    <span class="emp-id-tag">ID: 2102187816</span>
+                    <span class="emp-role">Service Engineer | Engineering</span>
+                </div>
+            </a>
+        </div>
+
+        <footer style="margin-top: 6rem; text-align: center; padding-bottom: 2rem; color: var(--text-muted);">
+            <p>&copy; 2025 Sreemeditec Personnel System • All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <!-- Modal for New Employee -->
+    <div class="modal" id="newEmpModal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 0.5rem; font-family: 'Playfair Display', serif;">Registry New Personnel</h2>
+            <p style="margin-bottom: 2.5rem; color: var(--text-muted); font-size: 0.875rem;">Enter complete personnel
+                metrics for digital synchronization.</p>
+
+            <form id="newEmpForm" class="form-grid">
+                <!-- Section: Identity -->
+                <div class="form-group full"
+                    style="margin-top: 1rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem;">
+                    <h3 style="font-size: 0.75rem; color: var(--accent); letter-spacing: 1px;">PERSONNEL IDENTITY</h3>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Full Legal Name</label>
+                    <input type="text" class="form-input" id="newName" required placeholder="e.g. John Doe">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Employee ID</label>
+                    <input type="text" class="form-input" id="newId" required placeholder="e.g. 2102187899">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Position / Role</label>
+                    <input type="text" class="form-input" id="newRole" required placeholder="e.g. Technical Analyst">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Avatar URL</label>
+                    <input type="text" class="form-input" id="newAvatar" placeholder="e.g. images/avatar.jpg">
+                </div>
+
+                <!-- Section: Life Particulars -->
+                <div class="form-group full"
+                    style="margin-top: 2rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem;">
+                    <h3 style="font-size: 0.75rem; color: var(--accent); letter-spacing: 1px;">LIFE PARTICULARS</h3>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Date of Birth</label>
+                    <input type="date" class="form-input" id="newDOB">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Blood Group</label>
+                    <input type="text" class="form-input" id="newBlood" placeholder="e.g. O+ve">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Gender</label>
+                    <select class="form-input" id="newGender">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Nationality</label>
+                    <input type="text" class="form-input" id="newNationality" value="Indian">
+                </div>
+
+                <!-- Section: Contact Hierarchy -->
+                <div class="form-group full"
+                    style="margin-top: 2rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem;">
+                    <h3 style="font-size: 0.75rem; color: var(--accent); letter-spacing: 1px;">CONTACT HIERARCHY</h3>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Encrypted Email</label>
+                    <input type="email" class="form-input" id="newEmail" placeholder="e.g. office@sreemeditec.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Direct Line</label>
+                    <input type="text" class="form-input" id="newPhone" placeholder="+91 XXXX XXX XXX">
+                </div>
+                <div class="form-group full">
+                    <label class="form-label">Primary Geo-Location (Address)</label>
+                    <input type="text" class="form-input" id="newAddress" placeholder="Full residential address">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Emergency Sync (Contact Person)</label>
+                    <input type="text" class="form-input" id="newEmergency" placeholder="Name (Relation)">
+                </div>
+
+                <!-- Section: Employment -->
+                <div class="form-group full"
+                    style="margin-top: 2rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem;">
+                    <h3 style="font-size: 0.75rem; color: var(--accent); letter-spacing: 1px;">CORPORATE ASSIGNMENT</h3>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Department</label>
+                    <input type="text" class="form-input" id="newDept" placeholder="e.g. Engineering">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Deployment Date</label>
+                    <input type="date" class="form-input" id="newJoinDate">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Reporting Architecture (Superior)</label>
+                    <input type="text" class="form-input" id="newManager" placeholder="e.g. Suresh Kumar">
+                </div>
+
+                <!-- Section: Competency -->
+                <div class="form-group full"
+                    style="margin-top: 2rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem;">
+                    <h3 style="font-size: 0.75rem; color: var(--accent); letter-spacing: 1px;">COMPETENCY FOUNDATION
+                    </h3>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Academic Foundation (Education)</label>
+                    <input type="text" class="form-input" id="newEdu" placeholder="e.g. B.Tech (Bio-Medical)">
+                </div>
+                <div class="form-group full">
+                    <label class="form-label">Core Competencies (Skills - Comma separated)</label>
+                    <input type="text" class="form-input" id="newSkills" placeholder="e.g. Accounting, Tally, Excel">
+                </div>
+
+                <div style="display: flex; gap: 1rem; margin-top: 3rem; padding-top: 2rem; border-top: 2px solid #f1f5f9;"
+                    class="form-group full">
+                    <button type="submit" class="btn btn-primary" style="flex: 1; padding: 1.25rem;">SYNCHRONIZE
+                        RECORD</button>
+                    <button type="button" class="btn" id="closeModal"
+                        style="background: #f1f5f9; color: var(--primary); padding: 1.25rem;">CANCEL</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Password Verification Modal -->
+    <div class="modal" id="passwordModal">
+        <div class="modal-content" style="max-width: 450px; padding: 3rem;">
+            <h2 style="margin-bottom: 0.5rem; font-family: 'Playfair Display', serif; text-align: center;">Security
+                Access</h2>
+            <p style="margin-bottom: 2rem; color: var(--text-muted); font-size: 0.875rem; text-align: center;">
+                Authorized Personnel Only</p>
+
+            <form id="passwordForm">
+                <div class="form-group">
+                    <label class="form-label">Access Code</label>
+                    <input type="password" class="form-input" id="accessCode" required placeholder="Enter access code">
+                </div>
+
+                <div
+                    style="display: flex; gap: 1rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #f1f5f9;">
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">VERIFY</button>
+                    <button type="button" class="btn" id="closePasswordModal"
+                        style="background: #f1f5f9;">CANCEL</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- GSAP for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- QRCode Lib -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- Custom JS -->
+    <script type="module" src="assets/js/main.js"></script>
+</body>
+
+</html>

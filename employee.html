@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sreemeditec | Sreekumar</title>
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/main.css">
+
+    <!-- Firebase Import Map -->
+    <script type="importmap">
+    {
+      "imports": {
+        "firebase/app": "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js",
+        "firebase/analytics": "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js",
+        "firebase/firestore": "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js",
+        "firebase/database": "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js"
+      }
+    }
+    </script>
+
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header-section">
+            <div class="brand-info">
+                <h1>Sreemeditec</h1>
+            </div>
+            <nav>
+                <button class="btn" onclick="window.location.href='index.html'" style="background: #f1f5f9;">
+                    <i class="fas fa-arrow-left"></i> BACK TO DASHBOARD
+                </button>
+            </nav>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="window.print()">
+                    <i class="fas fa-print"></i> EXPORT CORE DATA
+                </button>
+            </div>
+        </header>
+
+        <!-- Profile Card -->
+        <main class="profile-card">
+            <div class="profile-top">
+                <img src="images/sree.jpg" alt="Sreekumar" class="profile-avatar">
+                <div class="profile-header-info">
+                    <span style="color: var(--accent); font-weight: 800; letter-spacing: 2px;">TECHNICAL RECORD</span>
+                    <h1>Sreekumar</h1>
+                    <p style="font-size: 1.5rem; color: var(--text-muted); font-weight: 500;">IT Manager | Technology
+                        Systems</p>
+
+                    <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
+                        <span
+                            style="background: #f1f5f9; padding: 0.6rem 1.25rem; border-radius: 100px; font-size: 0.875rem; font-weight: 700;">ID:
+                            2102187805</span>
+                        <span
+                            style="background: rgba(16, 185, 129, 0.1); color: var(--accent); padding: 0.6rem 1.25rem; border-radius: 100px; font-size: 0.875rem; font-weight: 700;">ACTIVE
+                            DEPOT</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-grid-container">
+                <!-- Main Content -->
+                <div class="main-content">
+
+                    <!-- Basic Information -->
+                    <section class="info-section">
+                        <h2><i class="fas fa-user-circle"></i> Basic Information</h2>
+                        <div class="data-group">
+                            <div class="data-item">
+                                <span class="label">Full Legal Name</span>
+                                <span class="value">Sreekumar</span>
+                            </div>
+                            <div class="data-item">
+                                <span class="label">Date of Birth</span>
+                                <span class="value">Sep 14, 2005</span>
+                            </div>
+                            <div class="data-item">
+                                <span class="label">Gender</span>
+                                <span class="value">Male</span>
+                            </div>
+                            <div class="data-item">
+                                <span class="label">Nationality</span>
+                                <span class="value">Indian</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Contact Details -->
+                    <section class="info-section">
+                        <h2><i class="fas fa-address-book"></i> Contact Hierarchy</h2>
+                        <div class="data-group">
+                            <div class="data-item">
+                                <span class="label">Encypted Email</span>
+                                <span class="value">sreekumar.career@gmail.com</span>
+                            </div>
+                            <div class="data-item">
+                                <span class="label">Direct Line</span>
+                                <span class="value">+91 7200021788</span>
+                            </div>
+                            <div class="data-item">
+                                <span class="label">Emergency Sync</span>
+                                <span class="value">Sureshkumar (Father)</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Professional Metrics -->
+                    <section class="info-section">
+                        <h2><i class="fas fa-briefcase"></i> Employment Metrics</h2>
+                        <div class="data-group" style="grid-template-columns: 1fr 1fr;">
+                            <div class="data-item">
+                                <span class="label">Corporate Assignment</span>
+                                <span class="value">IT Manager</span>
+                            </div>
+                            <div class="data-item">
+                                <span class="label">Department</span>
+                                <span class="value">IT Systems Architect</span>
+                            </div>
+                            <div class="data-item">
+                                <span class="label">Deployment Date</span>
+                                <span class="value">March 10, 2020</span>
+                            </div>
+                            <div class="data-item">
+                                <span class="label">Reporting Architecture</span>
+                                <span class="value">Sureshkumar (CEO)</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Skills & Neural Patterns -->
+                    <section class="info-section">
+                        <h2><i class="fas fa-brain"></i> Competency & Education</h2>
+                        <div class="data-group">
+                            <div class="data-item">
+                                <span class="label">Academic Foundation</span>
+                                <span class="value">B.Tech (AIML Spectrum)</span>
+                            </div>
+                        </div>
+                        <div style="margin-top: 1.5rem;">
+                            <span class="label">Core Competencies</span>
+                            <div class="skills-container">
+                                <span class="skill-tag">System Backend</span>
+                                <span class="skill-tag">UI/UX Development</span>
+                                <span class="skill-tag">Python Systems</span>
+                                <span class="skill-tag">Java Frameworks</span>
+                                <span class="skill-tag">Neural Networks</span>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+
+                <!-- QR Scanner Sidebar -->
+                <div class="side-panel">
+                    <h3
+                        style="font-size: 0.8125rem; font-weight: 800; color: var(--text-muted); margin-bottom: 2rem; letter-spacing: 2px;">
+                        DIGITAL CORE ACCESS</h3>
+                    <div id="qrcode"></div>
+                    <p style="font-size: 0.8125rem; color: var(--text-muted); line-height: 1.4;">Scan to synchronize
+                        this personnel record with mobile terminals.</p>
+                </div>
+            </div>
+        </main>
+
+        <footer style="margin-top: 5rem; text-align: center; color: var(--text-muted); padding-bottom: 3rem;">
+            <p>&copy; 2025 Sreemeditec • Confidential Personnel Management System</p>
+        </footer>
+    </div>
+
+    <!-- GSAP for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- QRCode Lib -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- Custom JS -->
+    <script type="module" src="assets/js/main.js"></script>
+</body>
+
+</html>
