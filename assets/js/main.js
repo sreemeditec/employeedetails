@@ -136,55 +136,178 @@ document.addEventListener('DOMContentLoaded', () => {
     if (newEmpForm) {
         newEmpForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const name = document.querySelector('#newName').value;
-            const id = document.querySelector('#newId').value;
-            const role = document.querySelector('#newRole').value;
-            const avatar = document.querySelector('#newAvatar').value || 'https://via.placeholder.com/150';
 
-            // Additional Details
-            const dept = document.querySelector('#newDept').value || "Personnel";
-            const email = document.querySelector('#newEmail').value;
+            // Capture all fields
+            const employee = {
+                id: document.querySelector('#newId').value,
+                name: document.querySelector('#newName').value,
+                role: document.querySelector('#newRole').value,
+                avatar: document.querySelector('#newAvatar').value || 'https://ui-avatars.com/api/?name=User&background=random', // Better default
+                dob: document.querySelector('#newDOB').value,
+                blood: document.querySelector('#newBlood').value,
+                gender: document.querySelector('#newGender').value,
+                nationality: document.querySelector('#newNationality').value,
+                email: document.querySelector('#newEmail').value,
+                phone: document.querySelector('#newPhone').value,
+                address: document.querySelector('#newAddress').value,
+                emergency: document.querySelector('#newEmergency').value,
+                dept: document.querySelector('#newDept').value || "Personnel",
+                joinDate: document.querySelector('#newJoinDate').value,
+                manager: document.querySelector('#newManager').value,
+                edu: document.querySelector('#newEdu').value,
+                skills: document.querySelector('#newSkills').value
+            };
 
-            // Add to grid
+            // Save to LocalStorage
+            let employees = JSON.parse(localStorage.getItem('employees')) || [];
+            employees.push(employee);
+            localStorage.setItem('employees', JSON.stringify(employees));
+
+            // Add to grid (Visual feedback if we stayed on page, but we will redirect)
             const grid = document.querySelector('#directoryGrid');
-            const newCard = document.createElement('a');
-            newCard.href = '#';
-            newCard.className = 'employee-card';
-            newCard.setAttribute('data-id', id);
-            newCard.innerHTML = `
-                <img src="${avatar}" alt="${name}">
-                <span class="emp-id">ID: ${id}</span>
-                <h3>${name}</h3>
-                <p class="role">${role}</p>
-            `;
-            grid.appendChild(newCard);
+            if (grid) {
+                const newCard = document.createElement('a');
+                newCard.href = `employee.html?id=${employee.id}`;
+                newCard.className = 'employee-card';
+                newCard.setAttribute('data-id', employee.id);
+                newCard.innerHTML = `
+                    <img src="${employee.avatar}" alt="${employee.name}">
+                    <span class="emp-id">ID: ${employee.id}</span>
+                    <h3>${employee.name}</h3>
+                    <p class="role">${employee.role}</p>
+                `;
+                grid.appendChild(newCard);
+            }
 
             // Add to list
             const list = document.querySelector('#directoryList');
-            const newListItem = document.createElement('a');
-            newListItem.href = '#';
-            newListItem.className = 'list-item';
-            newListItem.setAttribute('data-id', id);
-            newListItem.innerHTML = `
-                <img src="${avatar}" alt="${name}">
-                <div class="emp-info">
-                    <span class="emp-name">${name}</span>
-                    <span class="emp-id-tag">ID: ${id}</span>
-                    <span class="emp-role">${role} | ${dept}</span>
-                </div>
-            `;
-            list.appendChild(newListItem);
-
-            // Animations for new entry
-            if (gridView.style.display !== 'none') {
-                gsap.from(newCard, { scale: 0.8, duration: 0.6, ease: "back.out(1.7)" });
-            } else {
-                gsap.from(newListItem, { x: -20, duration: 0.6, ease: "power2.out" });
+            if (list) {
+                const newListItem = document.createElement('a');
+                newListItem.href = `employee.html?id=${employee.id}`;
+                newListItem.className = 'list-item';
+                newListItem.setAttribute('data-id', employee.id);
+                newListItem.innerHTML = `
+                    <img src="${employee.avatar}" alt="${employee.name}">
+                    <div class="emp-info">
+                        <span class="emp-name">${employee.name}</span>
+                        <span class="emp-id-tag">ID: ${employee.id}</span>
+                        <span class="emp-role">${employee.role} | ${employee.dept}</span>
+                    </div>
+                `;
+                list.appendChild(newListItem);
             }
 
             newEmpForm.reset();
             modal.classList.remove('active');
-            alert(`Comprehensive personnel record for ${name} has been synchronized with the Sreemeditec registry.`);
+
+            // Redirect to the new employee page
+            alert(`Comprehensive personnel record for ${employee.name} has been synchronized. Redirecting to profile...`);
+            window.location.href = `employee.html?id=${employee.id}`;
+        });
+    }
+
+    // 6. Dynamic Employee Detail Page Population
+    const urlParams = new URLSearchParams(window.location.search);
+    const empId = urlParams.get('id');
+    const profileName = document.getElementById('profileName');
+
+    if (empId && profileName) {
+        const employees = JSON.parse(localStorage.getItem('employees')) || [];
+        const emp = employees.find(e => e.id === empId);
+
+        if (emp) {
+            // Update Header
+            document.getElementById('profileName').textContent = emp.name;
+            document.getElementById('profileRole').textContent = `${emp.role} | ${emp.dept}`;
+            document.getElementById('profileId').textContent = `ID: ${emp.id}`;
+            const avatarImg = document.getElementById('profileAvatar');
+            if (avatarImg) avatarImg.src = emp.avatar;
+            document.title = `Sreemeditec | ${emp.name}`;
+
+            // Basic Info
+            const setVal = (id, val) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = val || '-';
+            };
+
+            setVal('infoName', emp.name);
+            setVal('infoDob', emp.dob);
+            setVal('infoGender', emp.gender);
+            setVal('infoNationality', emp.nationality);
+
+            // Contact
+            setVal('infoEmail', emp.email);
+            setVal('infoPhone', emp.phone);
+            setVal('infoEmergency', emp.emergency);
+
+            // Employment
+            setVal('infoCorpRole', emp.role);
+            setVal('infoDept', emp.dept);
+            setVal('infoJoinDate', emp.joinDate);
+            setVal('infoManager', emp.manager);
+
+            // Competency
+            setVal('infoEdu', emp.edu);
+
+            // Skills (Handle Split)
+            const skillsContainer = document.getElementById('infoSkills');
+            if (skillsContainer && emp.skills) {
+                skillsContainer.innerHTML = ''; // Clear defaults
+                const skillsList = emp.skills.split(',').map(s => s.trim());
+                skillsList.forEach(skill => {
+                    const span = document.createElement('span');
+                    span.className = 'skill-tag';
+                    span.textContent = skill;
+                    skillsContainer.appendChild(span);
+                });
+            }
+        }
+    }
+
+    // 7. Load Saved Employees into Dashboard (Persistence)
+    const gridViewContainer = document.getElementById('directoryGrid');
+    const listViewContainer = document.getElementById('directoryList');
+
+    if (gridViewContainer && listViewContainer) {
+        const storedEmployees = JSON.parse(localStorage.getItem('employees')) || [];
+        storedEmployees.forEach(emp => {
+            // Check for duplicates (prevent adding if already exists)
+            if (!gridViewContainer.querySelector(`[data-id="${emp.id}"]`)) {
+                // Create Grid Card
+                const card = document.createElement('a');
+                card.href = `employee.html?id=${emp.id}`;
+                card.className = 'employee-card';
+                card.setAttribute('data-id', emp.id);
+                card.style.display = gridViewContainer.style.display === 'none' ? 'none' : 'flex'; // maintain visibility state
+                // Note: display logic is better handled by view toggle, but we init to flex usually or let CSS handle.
+                // Actually, the toggle logic hides the CONTAINER, not the child items, usually.
+                // But looking at toggle logic: gridView.style.display = 'grid'.
+                // The children are usually display:flex via CSS.
+                // Let's rely on CSS.
+
+                card.innerHTML = `
+                    <img src="${emp.avatar}" alt="${emp.name}">
+                    <span class="emp-id">ID: ${emp.id}</span>
+                    <h3>${emp.name}</h3>
+                    <p class="role">${emp.role}</p>
+                `;
+                gridViewContainer.appendChild(card);
+
+                // Create List Item
+                const li = document.createElement('a');
+                li.href = `employee.html?id=${emp.id}`;
+                li.className = 'list-item';
+                li.setAttribute('data-id', emp.id);
+                li.innerHTML = `
+                    <img src="${emp.avatar}" alt="${emp.name}">
+                    <div class="emp-info">
+                        <span class="emp-name">${emp.name}</span>
+                        <span class="emp-id-tag">ID: ${emp.id}</span>
+                        <span class="emp-role">${emp.role} | ${emp.dept}</span>
+                    </div>
+                `;
+                listViewContainer.appendChild(li);
+            }
         });
     }
 

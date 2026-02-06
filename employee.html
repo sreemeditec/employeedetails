@@ -46,16 +46,18 @@
         <!-- Profile Card -->
         <main class="profile-card">
             <div class="profile-top">
-                <img src="images/sree.jpg" alt="Sreekumar" class="profile-avatar">
+                <img src="images/sree.jpg" alt="Sreekumar" class="profile-avatar" id="profileAvatar">
                 <div class="profile-header-info">
                     <span style="color: var(--accent); font-weight: 800; letter-spacing: 2px;">TECHNICAL RECORD</span>
-                    <h1>Sreekumar</h1>
-                    <p style="font-size: 1.5rem; color: var(--text-muted); font-weight: 500;">IT Manager | Technology
+                    <h1 id="profileName">Sreekumar</h1>
+                    <p style="font-size: 1.5rem; color: var(--text-muted); font-weight: 500;" id="profileRole">IT
+                        Manager | Technology
                         Systems</p>
 
                     <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
                         <span
-                            style="background: #f1f5f9; padding: 0.6rem 1.25rem; border-radius: 100px; font-size: 0.875rem; font-weight: 700;">ID:
+                            style="background: #f1f5f9; padding: 0.6rem 1.25rem; border-radius: 100px; font-size: 0.875rem; font-weight: 700;"
+                            id="profileId">ID:
                             2102187805</span>
                         <span
                             style="background: rgba(16, 185, 129, 0.1); color: var(--accent); padding: 0.6rem 1.25rem; border-radius: 100px; font-size: 0.875rem; font-weight: 700;">ACTIVE
@@ -74,19 +76,19 @@
                         <div class="data-group">
                             <div class="data-item">
                                 <span class="label">Full Legal Name</span>
-                                <span class="value">Sreekumar</span>
+                                <span class="value" id="infoName">Sreekumar</span>
                             </div>
                             <div class="data-item">
                                 <span class="label">Date of Birth</span>
-                                <span class="value">Sep 14, 2005</span>
+                                <span class="value" id="infoDob">Sep 14, 2005</span>
                             </div>
                             <div class="data-item">
                                 <span class="label">Gender</span>
-                                <span class="value">Male</span>
+                                <span class="value" id="infoGender">Male</span>
                             </div>
                             <div class="data-item">
                                 <span class="label">Nationality</span>
-                                <span class="value">Indian</span>
+                                <span class="value" id="infoNationality">Indian</span>
                             </div>
                         </div>
                     </section>
@@ -97,15 +99,15 @@
                         <div class="data-group">
                             <div class="data-item">
                                 <span class="label">Encypted Email</span>
-                                <span class="value">sreekumar.career@gmail.com</span>
+                                <span class="value" id="infoEmail">sreekumar.career@gmail.com</span>
                             </div>
                             <div class="data-item">
                                 <span class="label">Direct Line</span>
-                                <span class="value">+91 7200021788</span>
+                                <span class="value" id="infoPhone">+91 7200021788</span>
                             </div>
                             <div class="data-item">
                                 <span class="label">Emergency Sync</span>
-                                <span class="value">Sureshkumar (Father)</span>
+                                <span class="value" id="infoEmergency">Sureshkumar (Father)</span>
                             </div>
                         </div>
                     </section>
@@ -116,19 +118,19 @@
                         <div class="data-group" style="grid-template-columns: 1fr 1fr;">
                             <div class="data-item">
                                 <span class="label">Corporate Assignment</span>
-                                <span class="value">IT Manager</span>
+                                <span class="value" id="infoCorpRole">IT Manager</span>
                             </div>
                             <div class="data-item">
                                 <span class="label">Department</span>
-                                <span class="value">IT Systems Architect</span>
+                                <span class="value" id="infoDept">IT Systems Architect</span>
                             </div>
                             <div class="data-item">
                                 <span class="label">Deployment Date</span>
-                                <span class="value">March 10, 2020</span>
+                                <span class="value" id="infoJoinDate">March 10, 2020</span>
                             </div>
                             <div class="data-item">
                                 <span class="label">Reporting Architecture</span>
-                                <span class="value">Sureshkumar (CEO)</span>
+                                <span class="value" id="infoManager">Sureshkumar (CEO)</span>
                             </div>
                         </div>
                     </section>
@@ -139,12 +141,12 @@
                         <div class="data-group">
                             <div class="data-item">
                                 <span class="label">Academic Foundation</span>
-                                <span class="value">B.Tech (AIML Spectrum)</span>
+                                <span class="value" id="infoEdu">B.Tech (AIML Spectrum)</span>
                             </div>
                         </div>
                         <div style="margin-top: 1.5rem;">
                             <span class="label">Core Competencies</span>
-                            <div class="skills-container">
+                            <div class="skills-container" id="infoSkills">
                                 <span class="skill-tag">System Backend</span>
                                 <span class="skill-tag">UI/UX Development</span>
                                 <span class="skill-tag">Python Systems</span>
