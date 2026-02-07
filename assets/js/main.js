@@ -13,16 +13,41 @@ let db;
  * Initializes Firebase using the imported config
  */
 function initApp() {
+    console.log("🚀 Initializing Sreemeditec Systems...");
+
+    // We always start the App logic first to ensure UI listeners are active
+    startApp();
+
     try {
+        if (!firebaseConfig.apiKey || !firebaseConfig.projectId) {
+            console.warn("⚠️ Firebase configuration is incomplete. Sync features may not work.");
+            return;
+        }
+
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-        db = getDatabase(app);
 
-        // Start the Main Application Logic
-        startApp();
+        // Handle Analytics (Optional)
+        if (firebaseConfig.measurementId) {
+            try {
+                getAnalytics(app);
+            } catch (e) {
+                console.warn("Analytics initialization failed:", e.message);
+            }
+        }
+
+        // Initialize Database
+        // If databaseURL is provided, we use it explicitly
+        if (firebaseConfig.databaseURL) {
+            db = getDatabase(app, firebaseConfig.databaseURL);
+        } else {
+            db = getDatabase(app);
+        }
+
+        console.log("✅ Firebase Connected Successfully.");
     } catch (error) {
-        console.error("Infrastructure Initialization Error:", error);
+        console.error("❌ Infrastructure Initialization Error:", error.message);
+        // We still have startApp() running from above, so UI buttons still work
     }
 }
 
@@ -180,8 +205,9 @@ function startApp() {
                     window.location.href = `employee.html?id=${employee.id}`;
                 })
                 .catch((error) => {
-                    console.error("Firebase Error: ", error);
-                    alert("Sync Error: " + error.message);
+                    console.error("Firebase Sync Error: ", error);
+                    alert("SYNC ERROR: Could not save to database. " + error.message +
+                        "\n\nPlease check your Firebase Database URL and Rules.");
                 });
         });
     }
